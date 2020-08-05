@@ -10,7 +10,7 @@ import 'package:mockito/mockito.dart';
 
 class MockRecipeRepository extends Mock implements RecipeRepository {}
 
-void Main() {
+void main() {
   MockRecipeRepository mockRecipeRepository;
   GetAllRecipes usecase;
   setUp(() {
