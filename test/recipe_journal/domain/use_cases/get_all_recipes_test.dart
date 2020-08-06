@@ -1,4 +1,4 @@
-import 'package:bmc_mvp/core/error/Failure.dart';
+import 'package:bmc_mvp/core/error/failure.dart';
 import 'package:bmc_mvp/core/usecases/usecase.dart';
 import 'package:bmc_mvp/recipe_journal/domain/entities/ingredient.dart';
 import 'package:bmc_mvp/recipe_journal/domain/entities/recipe.dart';
@@ -40,13 +40,12 @@ void main() {
 }
 
 class GetAllRecipes implements Usecase<List<Recipe>, NoParams> {
-  RecipeRepository recipeRepository;
+  final RecipeRepository recipeRepository;
 
   GetAllRecipes({@required this.recipeRepository});
 
   @override
-  Future<Either<Failure, List<Recipe>>> call(NoParams params) {
-    // TODO: implement call
-    throw UnimplementedError();
+  Future<Either<Failure, List<Recipe>>> call(NoParams params) async {
+    return await recipeRepository.getAllRecipes();
   }
 }
