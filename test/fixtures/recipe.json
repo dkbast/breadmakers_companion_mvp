@@ -1,0 +1,12 @@
+{
+  "name": "Bread",
+  "description": "Bake it slowly",
+  "imageUrl": "",
+  "ingredients": [
+    {
+      "name": "Flour",
+      "amount": 400,
+      "unit": "g"
+    }
+  ]
+}
