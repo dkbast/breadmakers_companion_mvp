@@ -1,6 +1,6 @@
 import 'package:bmc_mvp/core/usecases/usecase.dart';
-import 'package:bmc_mvp/recipe_journal/domain/entities/ingredient.dart';
-import 'package:bmc_mvp/recipe_journal/domain/entities/recipe.dart';
+import 'package:bmc_mvp/recipe_journal/data/models/ingredient.dart';
+import 'package:bmc_mvp/recipe_journal/data/models/recipe.dart';
 import 'package:bmc_mvp/recipe_journal/domain/repositories/recipe_repository.dart';
 import 'package:bmc_mvp/recipe_journal/domain/use_cases/get_all_recipes.dart';
 import 'package:dartz/dartz.dart';

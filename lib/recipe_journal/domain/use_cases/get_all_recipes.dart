@@ -1,6 +1,6 @@
 import 'package:bmc_mvp/core/error/failure.dart';
 import 'package:bmc_mvp/core/usecases/usecase.dart';
-import 'package:bmc_mvp/recipe_journal/domain/entities/recipe.dart';
+import 'package:bmc_mvp/recipe_journal/data/models/recipe.dart';
 import 'package:bmc_mvp/recipe_journal/domain/repositories/recipe_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';

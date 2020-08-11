@@ -2,7 +2,12 @@
   "ingredients": [
     {
       "name": "Flour",
-      "amount": 400,
+      "amount": 100,
+      "unit": "g"
+    },
+    {
+      "name": "Flour",
+      "amount": 100,
       "unit": "g"
     }
   ]

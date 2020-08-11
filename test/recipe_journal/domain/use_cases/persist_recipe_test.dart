@@ -1,5 +1,5 @@
-import 'package:bmc_mvp/recipe_journal/domain/entities/ingredient.dart';
-import 'package:bmc_mvp/recipe_journal/domain/entities/recipe.dart';
+import 'package:bmc_mvp/recipe_journal/data/models/ingredient.dart';
+import 'package:bmc_mvp/recipe_journal/data/models/recipe.dart';
 import 'package:bmc_mvp/recipe_journal/domain/repositories/recipe_repository.dart';
 import 'package:bmc_mvp/recipe_journal/domain/use_cases/persist_recipe.dart';
 import 'package:flutter_test/flutter_test.dart';

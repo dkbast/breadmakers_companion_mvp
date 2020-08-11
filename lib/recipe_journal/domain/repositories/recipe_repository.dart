@@ -1,5 +1,5 @@
 import 'package:bmc_mvp/core/error/failure.dart';
-import 'package:bmc_mvp/recipe_journal/domain/entities/recipe.dart';
+import 'package:bmc_mvp/recipe_journal/data/models/recipe.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class RecipeRepository {
