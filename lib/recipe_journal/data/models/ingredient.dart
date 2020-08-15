@@ -1,9 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
 
+@HiveType(typeId: 1)
 class Ingredient extends Equatable {
+  @HiveField(0)
   final String name;
+  @HiveField(1)
   final double amount;
+  @HiveField(2)
   final String unit;
 
   Ingredient({@required this.name, @required this.amount, @required this.unit});

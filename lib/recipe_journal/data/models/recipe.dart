@@ -1,11 +1,17 @@
 import 'package:bmc_mvp/recipe_journal/data/models/ingredient.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
 
+@HiveType(typeId: 0)
 class Recipe extends Equatable {
+  @HiveField(0)
   final String name;
+  @HiveField(1)
   final String description;
+  @HiveField(2)
   final String imageUrl;
+  @HiveField(3)
   final List<Ingredient> ingredients;
 
   Recipe(
