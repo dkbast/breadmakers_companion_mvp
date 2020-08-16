@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
+part 'ingredient.g.dart';
+
 @HiveType(typeId: 1)
 class Ingredient extends Equatable {
   @HiveField(0)
