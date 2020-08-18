@@ -46,10 +46,14 @@ class AddIngredientDialog {
         child: Form(
       key: _formKey,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          StyledInputTextField(
-              label: 'Name of new ingredient', onSaved: saveName),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('Add ingredient'),
+          ),
+          StyledInputTextField(label: 'Name', onSaved: saveName),
           StyledInputNumberField(label: 'Amount', onSaved: saveAmount),
           DropdownButtonFormField<String>(
             onSaved: saveUnit,
@@ -67,19 +71,21 @@ class AddIngredientDialog {
               );
             }).toList(),
           ),
-          RaisedButton(
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                //Scaffold.of(this.context)
-                //  .showSnackBar(SnackBar(content: Text('Adding ingredient')));
-                _formKey.currentState.save();
-                saveIngredient(
-                    Ingredient(name: _name, amount: _amount, unit: _unit));
-                Navigator.pop(context);
-              }
-            },
-            child: Text('Save'),
-          )
+          ButtonBar(children: [
+            RaisedButton(
+              onPressed: () {
+                if (_formKey.currentState.validate()) {
+                  //Scaffold.of(this.context)
+                  //  .showSnackBar(SnackBar(content: Text('Adding ingredient')));
+                  _formKey.currentState.save();
+                  saveIngredient(
+                      Ingredient(name: _name, amount: _amount, unit: _unit));
+                  Navigator.pop(context);
+                }
+              },
+              child: Text('Save'),
+            ),
+          ])
         ],
       ),
     ));

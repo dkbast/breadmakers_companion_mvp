@@ -47,14 +47,28 @@ class _AddRecipePageState extends State<AddRecipePage> {
                 maxLines: 7,
               ),
               Column(
-                children: _ingredients.map((Ingredient ingredient) {
-                  return ListTile(
-                    leading: Text(
-                        ingredient.amount.toString() + ' ' + ingredient.unit),
-                    title: Text(ingredient.name),
-                    trailing: Icon(Icons.edit),
-                  );
-                }).toList(),
+                children: _ingredients.isNotEmpty
+                    ? _ingredients.map((Ingredient ingredient) {
+                        return ListTile(
+                          leading: Text(ingredient.amount.toString() +
+                              ' ' +
+                              ingredient.unit),
+                          title: Text(ingredient.name),
+                          trailing: Icon(Icons.edit),
+                        );
+                      }).toList()
+                    : [
+                        ListTile(
+                          leading: Text('100 ml'),
+                          title: Text('Unicornmilk'),
+                          trailing: IconButton(
+                            icon: Icon(Icons.add),
+                          ),
+                          onTap: () {
+                            ingredientDialog(context);
+                          },
+                        ),
+                      ],
               ),
               RaisedButton(
                 onPressed: () {
