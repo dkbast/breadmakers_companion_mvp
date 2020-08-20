@@ -1,5 +1,6 @@
 import 'package:bmc_mvp/recipe_journal/data/models/recipe.dart';
 import 'package:bmc_mvp/recipe_journal/presentation/pages/add_recipe_page.dart';
+import 'package:bmc_mvp/recipe_journal/presentation/widgets/recipe_card.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -23,7 +24,7 @@ class _ListRecipiesPageState extends State<ListRecipiesPage> {
           return ListView.builder(
               itemCount: box.values.length,
               itemBuilder: (context, index) {
-                return ListTile(title: Text(box.getAt(index).name));
+                return RecipeCard(recipe: box.getAt(index), index: index);
               });
         },
       ),

@@ -26,6 +26,24 @@ class _AddRecipePageState extends State<AddRecipePage> {
       appBar: AppBar(
         title: Text('Enter new Recipe'),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.check),
+        onPressed: () {
+          if (_formKey.currentState.validate()) {
+            //Scaffold.of(context)
+            //  .showSnackBar(SnackBar(content: Text('Saving recipe')));
+            _formKey.currentState.save();
+            final Recipe newRecipe = Recipe(
+                name: _name,
+                description: _description,
+                imageUrl: '',
+                ingredients: _ingredients);
+            Box box = Hive.box('recipes');
+            box.add(newRecipe);
+            Navigator.pop(context);
+          }
+        },
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16.0),
         child: Form(
@@ -37,6 +55,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
                   onSaved: saveName, validator: validateName, label: 'Name '),
               SizedBox(height: 24.0),
               TextFormField(
+                onSaved: saveDescription,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText:
@@ -54,7 +73,12 @@ class _AddRecipePageState extends State<AddRecipePage> {
                               ' ' +
                               ingredient.unit),
                           title: Text(ingredient.name),
-                          trailing: Icon(Icons.edit),
+                          trailing: IconButton(
+                              onPressed: () {
+                                removeIngredient(ingredient);
+                              },
+                              splashRadius: 20.0,
+                              icon: Icon(Icons.remove)),
                         );
                       }).toList()
                     : [
@@ -70,27 +94,16 @@ class _AddRecipePageState extends State<AddRecipePage> {
                         ),
                       ],
               ),
-              RaisedButton(
-                onPressed: () {
-                  ingredientDialog(context);
-                },
-              ),
-              RaisedButton(
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    //Scaffold.of(context)
-                    //  .showSnackBar(SnackBar(content: Text('Saving recipe')));
-                    _formKey.currentState.save();
-                    final Recipe newRecipe = Recipe(
-                        name: _name,
-                        description: _description,
-                        imageUrl: '',
-                        ingredients: _ingredients);
-                    Box box = Hive.box('recipes');
-                    box.add(newRecipe);
-                  }
-                },
-                child: Text('Save'),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Center(
+                  child: IconButton(
+                    icon: Icon(Icons.add),
+                    onPressed: () {
+                      ingredientDialog(context);
+                    },
+                  ),
+                ),
               )
             ],
           ),
@@ -110,6 +123,12 @@ class _AddRecipePageState extends State<AddRecipePage> {
   void saveIngredient(Ingredient ingredient) {
     setState(() {
       this._ingredients.add(ingredient);
+    });
+  }
+
+  void removeIngredient(Ingredient ingredient) {
+    setState(() {
+      this._ingredients.remove(ingredient);
     });
   }
 
