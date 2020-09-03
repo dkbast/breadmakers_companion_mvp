@@ -25,6 +25,9 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         home: Scaffold(
+          appBar: AppBar(
+            title: Text('BreadTracker'),
+          ),
           body: ListRecipiesPage(),
         ));
   }
