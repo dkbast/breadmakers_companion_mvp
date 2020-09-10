@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bmc_mvp/recipe_journal/data/models/ingredient.dart';
 import 'package:bmc_mvp/recipe_journal/data/models/recipe.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +27,9 @@ class _RecipeCardState extends State<RecipeCard> {
           style: TextStyle(fontSize: 34.0),
         ),
       ));
+    }
+    if (widget.recipe.imageUrl != null) {
+      widgets.add(Image.file(File(widget.recipe.imageUrl)));
     }
     if (widget.recipe.description != null) {
       widgets.add(Padding(

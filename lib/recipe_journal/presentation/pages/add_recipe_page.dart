@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:bmc_mvp/recipe_journal/data/models/ingredient.dart';
 import 'package:bmc_mvp/recipe_journal/data/models/recipe.dart';
+import 'package:bmc_mvp/recipe_journal/presentation/manager/CameraProvider.dart';
 import 'package:bmc_mvp/recipe_journal/presentation/pages/add_ingredient_dialog.dart';
+import 'package:bmc_mvp/recipe_journal/presentation/pages/take_picture_dialog.dart';
 import 'package:bmc_mvp/recipe_journal/presentation/widgets/styled_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:provider/provider.dart';
 
 class AddRecipePage extends StatefulWidget {
   AddRecipePage({Key key}) : super(key: key);
@@ -17,6 +22,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
   final _formKey = GlobalKey<FormState>();
   String _name;
   String _description;
+  String _imagePath;
   List<Ingredient> _ingredients = [];
 
   @override
@@ -36,7 +42,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
             final Recipe newRecipe = Recipe(
                 name: _name,
                 description: _description,
-                imageUrl: '',
+                imageUrl: _imagePath,
                 ingredients: _ingredients);
             Box box = Hive.box('recipes');
             box.add(newRecipe);
@@ -65,6 +71,23 @@ class _AddRecipePageState extends State<AddRecipePage> {
                 minLines: 3,
                 maxLines: 7,
               ),
+              _imagePath != null
+                  ? Image.file(File(_imagePath))
+                  : IconButton(
+                      icon: Icon(Icons.camera_alt),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TakePictureDialog(
+                                camera: Provider.of<CameraProvider>(context,
+                                        listen: false)
+                                    .camera,
+                                saveImagePath: saveImage),
+                          ),
+                        );
+                      },
+                    ),
               Column(
                 children: _ingredients.isNotEmpty
                     ? _ingredients.map((Ingredient ingredient) {
@@ -123,6 +146,12 @@ class _AddRecipePageState extends State<AddRecipePage> {
   void saveIngredient(Ingredient ingredient) {
     setState(() {
       this._ingredients.add(ingredient);
+    });
+  }
+
+  void saveImage(String imagePath) {
+    setState(() {
+      this._imagePath = imagePath;
     });
   }
 
