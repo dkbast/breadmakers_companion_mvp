@@ -4,11 +4,13 @@ class StyledInputTextField extends StatelessWidget {
   final String label;
   final Function validator;
   final Function onSaved;
+  final String initialValue;
 
   const StyledInputTextField(
       {@required this.label,
       this.validator: validateNotEmpty,
-      @required this.onSaved});
+      @required this.onSaved,
+      @required this.initialValue});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,7 @@ class StyledInputTextField extends StatelessWidget {
           labelText: label),
       validator: validator,
       onSaved: onSaved,
+      initialValue: this.initialValue,
     );
   }
 

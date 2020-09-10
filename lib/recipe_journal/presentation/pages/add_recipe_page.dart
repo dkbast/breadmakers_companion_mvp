@@ -13,7 +13,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 class AddRecipePage extends StatefulWidget {
-  AddRecipePage({Key key}) : super(key: key);
+  int recipeIndex;
+  AddRecipePage({Key key, this.recipeIndex}) : super(key: key);
 
   @override
   _AddRecipePageState createState() => _AddRecipePageState();
@@ -26,6 +27,18 @@ class _AddRecipePageState extends State<AddRecipePage> {
   String _description;
   String _imagePath;
   List<Ingredient> _ingredients = [];
+
+  @override
+  void initState() {
+    if (widget.recipeIndex != null) {
+      Recipe recipe = Hive.box('recipes').getAt(widget.recipeIndex);
+      _name = recipe.name;
+      _description = recipe.description;
+      _imagePath = recipe.imageUrl;
+      _ingredients = recipe.ingredients;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,19 +55,25 @@ class _AddRecipePageState extends State<AddRecipePage> {
             //  .showSnackBar(SnackBar(content: Text('Saving recipe')));
             _formKey.currentState.save();
 
-            final _path = join(
-              (await getApplicationDocumentsDirectory()).path,
-              '${DateTime.now()}.png',
-            );
-            File(_imagePath).copySync(_path);
-
+            if (_imagePath != null) {
+              final _path = join(
+                (await getApplicationDocumentsDirectory()).path,
+                '${DateTime.now()}.png',
+              );
+              File(_imagePath).copySync(_path);
+              _imagePath = _path;
+            }
             final Recipe newRecipe = Recipe(
                 name: _name,
                 description: _description,
-                imageUrl: _path,
+                imageUrl: _imagePath,
                 ingredients: _ingredients);
             Box box = Hive.box('recipes');
-            box.add(newRecipe);
+            if (widget.recipeIndex != null) {
+              box.putAt(widget.recipeIndex, newRecipe);
+            } else {
+              box.add(newRecipe);
+            }
             Navigator.pop(context);
           }
         },
@@ -67,10 +86,15 @@ class _AddRecipePageState extends State<AddRecipePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               StyledInputTextField(
-                  onSaved: saveName, validator: validateName, label: 'Name '),
+                onSaved: saveName,
+                validator: validateName,
+                label: 'Name ',
+                initialValue: _name,
+              ),
               SizedBox(height: 24.0),
               TextFormField(
                 onSaved: saveDescription,
+                initialValue: _description,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText:

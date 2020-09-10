@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bmc_mvp/recipe_journal/data/models/ingredient.dart';
 import 'package:bmc_mvp/recipe_journal/data/models/recipe.dart';
+import 'package:bmc_mvp/recipe_journal/presentation/pages/add_recipe_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -46,17 +47,32 @@ class _RecipeCardState extends State<RecipeCard> {
         );
       }).toList()));
     }
-    ;
-    widgets.add(IconButton(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      icon: Icon(Icons.delete_forever),
-      onPressed: () {
-        String imagePath = Hive.box('recipes').getAt(widget.index).imageUrl;
-        File(imagePath).deleteSync();
-        Hive.box('recipes').deleteAt(widget.index);
-      },
+    widgets.add(ButtonBar(
+      children: [
+        IconButton(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          icon: Icon(Icons.delete_forever),
+          onPressed: () {
+            // REFACTOR move to repository
+            String imagePath = Hive.box('recipes').getAt(widget.index).imageUrl;
+            if (imagePath != null) {
+              File(imagePath).deleteSync();
+            }
+            Hive.box('recipes').deleteAt(widget.index);
+          },
+        ),
+        IconButton(
+            icon: Icon(Icons.edit),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddRecipePage(
+                            recipeIndex: widget.index,
+                          )));
+            })
+      ],
     ));
-
     return Card(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
