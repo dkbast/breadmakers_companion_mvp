@@ -51,6 +51,8 @@ class _RecipeCardState extends State<RecipeCard> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       icon: Icon(Icons.delete_forever),
       onPressed: () {
+        String imagePath = Hive.box('recipes').getAt(widget.index).imageUrl;
+        File(imagePath).deleteSync();
         Hive.box('recipes').deleteAt(widget.index);
       },
     ));

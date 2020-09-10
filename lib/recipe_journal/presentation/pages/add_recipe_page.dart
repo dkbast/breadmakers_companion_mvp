@@ -8,6 +8,8 @@ import 'package:bmc_mvp/recipe_journal/presentation/pages/take_picture_dialog.da
 import 'package:bmc_mvp/recipe_journal/presentation/widgets/styled_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 class AddRecipePage extends StatefulWidget {
@@ -34,15 +36,22 @@ class _AddRecipePageState extends State<AddRecipePage> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.check),
-        onPressed: () {
+        onPressed: () async {
           if (_formKey.currentState.validate()) {
             //Scaffold.of(context)
             //  .showSnackBar(SnackBar(content: Text('Saving recipe')));
             _formKey.currentState.save();
+
+            final _path = join(
+              (await getApplicationDocumentsDirectory()).path,
+              '${DateTime.now()}.png',
+            );
+            File(_imagePath).copySync(_path);
+
             final Recipe newRecipe = Recipe(
                 name: _name,
                 description: _description,
-                imageUrl: _imagePath,
+                imageUrl: _path,
                 ingredients: _ingredients);
             Box box = Hive.box('recipes');
             box.add(newRecipe);

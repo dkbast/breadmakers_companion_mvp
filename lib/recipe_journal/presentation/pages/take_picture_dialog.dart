@@ -56,7 +56,7 @@ class _TakePictureDialogState extends State<TakePictureDialog> {
             await _initializeControllerFuture;
 
             final path = join(
-              (await getApplicationDocumentsDirectory()).path,
+              (await getTemporaryDirectory()).path,
               '${DateTime.now()}.png',
             );
             // TODO take a square picture
